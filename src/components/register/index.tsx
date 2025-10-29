@@ -1,15 +1,15 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
-    ActivityIndicator,
-    Alert,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  Alert,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { styles } from "./style";
+import { styles } from "./styles";
 
 export function Register() {
   const router = useRouter();
@@ -126,7 +126,7 @@ export function Register() {
 
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => router.push("/(auth)/login")}
+          onPress={() => router.back()}
         >
           <Text style={styles.backButtonText}>← Voltar para o login</Text>
         </TouchableOpacity>
