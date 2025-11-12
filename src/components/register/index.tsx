@@ -126,7 +126,7 @@ export function Register() {
 
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => router.back()}
+          onPress={() => router.push("./(tabs)/home")}
         >
           <Text style={styles.backButtonText}>← Voltar para o login</Text>
         </TouchableOpacity>

@@ -131,7 +131,7 @@ export  function Login() {
               <View style={styles.dividerLine} />
             </View>
 
-            <TouchableOpacity onPress={() => router.push("/register")}>
+            <TouchableOpacity onPress={() => router.push("./(auth)/register")}>
               <Text style={styles.signUpText}>
                 Não possui uma conta? <Text style={styles.signUpLink}>Cadastre-se</Text>
               </Text>

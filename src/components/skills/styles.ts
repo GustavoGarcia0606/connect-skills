@@ -7,19 +7,6 @@ export const styles = StyleSheet.create({
     padding: 20,
   },
 
-  card: {
-    backgroundColor: "#fff",
-    borderRadius: 18,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
-    borderWidth: 1,
-    borderColor: "#e6e9ef",
-  },
-
   label: {
     fontSize: 15,
     fontWeight: "600",
@@ -69,18 +56,17 @@ export const styles = StyleSheet.create({
     marginVertical: 4,
   },
 
-  badge: {
-    alignSelf: "flex-start",
-    backgroundColor: "#eef2ff",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 20,
-    marginTop: 6,
+  botao: {
+    backgroundColor: "#111",
+    borderRadius: 10,
+    paddingVertical: 14,
+    alignItems: "center",
+    marginTop: 30,
   },
 
-  badgeText: {
-    color: "#2f80ed",
+  botaoTexto: {
+    color: "#fff",
+    fontSize: 16,
     fontWeight: "600",
-    fontSize: 14,
   },
 });
