@@ -44,16 +44,7 @@ export const styles = StyleSheet.create({
     marginTop: -10,
     marginBottom: 16,
   },
-  passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderColor: '#DDD',
-    borderWidth: 1,
-    borderRadius: 8,
-    backgroundColor: '#FFF',
-    paddingHorizontal: 12,
-    marginBottom: 16,
-  },
+ 
   selectBox: {
     backgroundColor: '#FFF',
     borderColor: '#DDD',

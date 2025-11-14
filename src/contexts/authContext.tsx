@@ -1,36 +1,51 @@
+import { supabase } from "@/lib/supabase";
 import { Session, User } from "@supabase/supabase-js";
-import { createContext, useContext, useState } from "react";
+import { useRouter } from "expo-router";
+import { createContext, useContext, useEffect, useState } from "react";
 
-type AuthContextType = {
+type AuthContextProps = {
     user: User | null;
     session: Session | null;
-        setAuth : (payload: {
-             user: User | null;    
-             session: Session | null
-             }) => void;
 };
-
-const AuthContext = createContext<AuthContextType>({
+const AuthContext = createContext<AuthContextProps> ({
     user: null,
     session: null,
-    setAuth: () => {},
 });
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-   const [user, setUser] = useState<User | null>(null);
-   const [session, setSession] = useState<Session | null>(null);
+export function AuthProvider({ children } : { children: React.ReactNode }) {
+    const [user, setUser] = useState<User | null>(null);
+    const [session, setSession] = useState<Session | null>(null);
+    const router = useRouter();
 
-   const setAuth = (payload: { user: User | null; session: Session | null }) => {
-       setUser(payload.user);
-       setSession(payload.session);
-   };
-   return (
-       <AuthContext.Provider value={{ user, session, setAuth }}>
-           {children}
-       </AuthContext.Provider>
-   );
+    useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+ 
+    });
 
+    const { data: authListener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
 
+        if (session) {
+          router.replace("/(tabs)/home");
+        } else {
+          router.replace("/(auth)");
+        }
+      }
+    );
+
+    return () => {
+      authListener?.subscription?.unsubscribe();
+    };
+  }, []);
+
+    return (
+        <AuthContext.Provider value={{user, session }}>
+            {children} 
+        </AuthContext.Provider>
+    );
 }
-   export const useAuth = () => useContext(AuthContext);
-   
+export const useAuth = () => useContext(AuthContext);

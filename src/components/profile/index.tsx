@@ -1,12 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import React, { useState } from 'react';
 import {
-    ActivityIndicator,
-    ScrollView,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { SelectList } from 'react-native-dropdown-select-list';
 import { styles } from './styles';
@@ -68,7 +68,7 @@ export function ProfileScreen() {
 
         {/* Nova Senha */}
         <Text style={styles.label}>Nova senha (opcional)</Text>
-        <View style={styles.passwordContainer}>
+        <View >
           <TextInput
             style={[styles.input, { flex: 1 }]}
             placeholder="********"
@@ -76,6 +76,7 @@ export function ProfileScreen() {
             secureTextEntry={!showSenha}
             value={senha}
             onChangeText={setSenha}
+            
           />
           <TouchableOpacity onPress={() => setShowSenha(!showSenha)}>
             <Ionicons
