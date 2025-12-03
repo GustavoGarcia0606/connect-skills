@@ -13,6 +13,7 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { supabase } from "../../lib/supabase";
 import { styles } from "./styles";
 
 export  function Login() {
@@ -30,17 +31,18 @@ export  function Login() {
     try {
       setLoading(true);
       setLoginError("");
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    
-      await new Promise((r) => setTimeout(r, 600));
-
-      if (email.toLowerCase() === "aluno@teste.com" && password === "123@senac") {
-        console.log("✅ Login simulado com sucesso!");
-        
-        router.push("./(auth)/skills");
-      } else {
-        setLoginError("E-mail ou senha inválidos!");
+      if (error) {
+        setLoginError(error.message || "E-mail ou senha inválidos!");
       }
+      // Login com sucesso
+      router.replace("./(tabs)/home"); {/* aqui estava: router.replace(./(tabs)");*/ }
+    } catch (e: any) {
+      setLoginError(e.message || "Não foi possível logar. Tente novamente.");
     } finally {
       setLoading(false);
     }

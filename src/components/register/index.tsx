@@ -1,14 +1,14 @@
+import { supabase } from "@/lib/supabase";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   ActivityIndicator,
-  Alert,
+  SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { styles } from "./styles";
 
 export function Register() {
@@ -29,29 +29,28 @@ export function Register() {
     !loading;
 
   const handleRegister = async () => {
-    if (password !== confirmPassword) {
-      return setRegisterError("As senhas não coincidem!");
-    }
-
     try {
       setLoading(true);
-      setRegisterError("");
-      await new Promise((r) => setTimeout(r, 600));
-
-      if (
-        email.toLowerCase() === "aluno@teste.com" &&
-        password === "123@senac"
-      ) {
-        Alert.alert("Cadastro realizado com sucesso!");
-        router.push("/");
-      } else {
-        setRegisterError("E-mail ou senha inválidos!");
+     setRegisterError("");
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          data: { name: name.trim() }
+        },
+      });
+      if (error) {
+        setRegisterError(error.message || "Falha ao cadastrar. Verifique a validação dos campos!");
+        return;
       }
+      router.replace("/(auth)"); // Alterar redirecionamento para /(auth)/datauser
+      return data;
+    } catch (e: any) {
+      setRegisterError(e.message || "Falha ao cadastrar. Tente novamente.");
     } finally {
       setLoading(false);
     }
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.form}>
@@ -61,7 +60,7 @@ export function Register() {
           Preencha os campos abaixo para se cadastrar
         </Text>
 
-       
+        
         <TextInput
           style={styles.input}
           value={name}
@@ -71,7 +70,7 @@ export function Register() {
           autoCapitalize="words"
         />
 
-      
+       
         <TextInput
           style={styles.input}
           value={email}
@@ -106,6 +105,7 @@ export function Register() {
           <Text style={styles.error}>{registerError}</Text>
         ) : null}
 
+       
         <TouchableOpacity
           style={[styles.button, !canSubmit && styles.buttonDisabled]}
           disabled={!canSubmit}
@@ -118,12 +118,14 @@ export function Register() {
           )}
         </TouchableOpacity>
 
+       
         <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
           <Text style={styles.toggleText}>
             {showPassword ? "🔒 Ocultar senha" : "👁️ Mostrar senha"}
           </Text>
         </TouchableOpacity>
 
+       
         <TouchableOpacity
           style={styles.backButton}
           onPress={() => router.push("./(tabs)/home")}
